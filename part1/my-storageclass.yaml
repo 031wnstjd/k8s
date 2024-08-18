@@ -1,0 +1,6 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: local-storage
+provisioner: rancher.io/local-path
+volumeBindingMode: WaitForFirstConsumer # 요청하는 pod가 생성되기 전까진 동적 할당이 이루어지지 않음

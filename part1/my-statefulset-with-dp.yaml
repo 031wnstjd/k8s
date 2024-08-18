@@ -18,7 +18,7 @@ spec:
         volumeMounts:
         - name: dynamic-volume
           mountPath: /tmp/dynamic
-  volumeClaimTemplates:
+  volumeClaimTemplates: # pvc 자체를 정의
   - metadata:
       name: dynamic-volume
     spec:

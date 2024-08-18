@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: my-pvc-100
+spec:
+  accessModes: # 이 value를 잘 설정해야 의도한대로 Persistent Volume과 바인딩 됨
+  - ReadWriteMany
+  storageClassName: host-pv
+  resources:
+    requests:
+      storage: 100Mi

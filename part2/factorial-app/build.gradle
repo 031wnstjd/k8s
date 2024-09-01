@@ -34,7 +34,7 @@ jib {
 	}
 	to {
 		image = "031wnstjd/factorial-app"
-		tags = ['latest', '0.0.2']
+		tags = ['latest', '0.0.3']
 	}
 	container {
 		creationTime = "USE_CURRENT_TIMESTAMP"

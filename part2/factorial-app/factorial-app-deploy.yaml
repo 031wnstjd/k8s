@@ -18,6 +18,33 @@ spec:
       labels:
         app: factorial-app
     spec:
+      terminationGracePeriodSeconds: 60
       containers:
         - name: factorial
-          image: 031wnstjd/factorial-app:0.0.2
+          image: 031wnstjd/factorial-app:0.0.3
+          lifecycle:
+            preStop:
+              exec:
+                command: ["/bin/sh","-c","sleep 10"]
+          startupProbe:
+            httpGet:
+              path: /probe/startup
+              port: 8080
+            initialDelaySeconds: 15
+            periodSeconds: 1
+            failureThreshold: 10
+          readinessProbe:
+            httpGet:
+              path: /probe/ready
+              port: 8080
+            initialDelaySeconds: 15
+            periodSeconds: 1
+            successThreshold: 2
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /probe/live
+              port: 8080
+            initialDelaySeconds: 15
+            periodSeconds: 1
+            failureThreshold: 7

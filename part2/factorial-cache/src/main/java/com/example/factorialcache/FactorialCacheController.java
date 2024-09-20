@@ -17,15 +17,32 @@ public class FactorialCacheController {
     @Value("${factorial.api-key}")
     private String apiKey;
 
+    private FactorialCacheService cacheService;
+
+    private FactorialCalculateService calculateService;
+
+    public FactorialCacheController(FactorialCacheService cacheService, FactorialCalculateService calculateService) {
+        this.cacheService = cacheService;
+        this.calculateService = calculateService;
+    }
+
     @GetMapping("/factorial/{n}")
-    public String calcuateFactorail(@PathVariable("n") int n, @RequestParam(value = "key", required = false) String key) {
+    public String calcuateFactorial(@PathVariable("n") int n, @RequestParam(value = "key", required = false) String key) {
         if (n > 10) {
             if (!apiKey.equals(key)) {
                 throw new IncorrectApiKeyException("To calculate more than 10 factorials, you need the correct api-key");
             }
         }
 
-        BigDecimal result = BigDecimal.ONE;
+        BigDecimal result;
+        BigDecimal cachedResult = cacheService.cachedFactorial(n);
+
+        if (cachedResult != null) {
+            result = cachedResult;
+        } else {
+            result = calculateService.getCalculatedResult(n);
+            cacheService.cacheFactorial(n, result);
+        }
 
         return switch (language) {
             case "ko" -> n + " 팩토리얼은" + result + " 입니다";

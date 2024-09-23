@@ -19,10 +19,22 @@ spec:
         app: factorial-cache-app
     spec:
       terminationGracePeriodSeconds: 60
+      volumes:
+        - name: cache-volume
+          emptyDir:
+            medium: Memory
+        - name: log-volume
+          persistentVolumeClaim:
+            claimName: cache-log-storage-claim
       containers:
         - name: factorial
-          image: 031wnstjd/factorial-cache-app:0.0.2
+          image: 031wnstjd/factorial-cache-app:0.0.3
           imagePullPolicy: Always # Local에 있는 이미지를 사용하지 않고 항상 이미지를 pull 해온다 (운영에서는 사용하지 않기를 권장)
+          volumeMounts:
+            - mountPath: /factorial/logs
+              name: log-volume
+            - mountPath: /factorial/cache
+              name: cache-volume
           env:
             - name: APP_LANGUAGE
               valueFrom:

@@ -28,7 +28,7 @@ spec:
             claimName: cache-log-storage-claim
       containers:
         - name: factorial
-          image: 031wnstjd/factorial-cache-app:0.0.3
+          image: 031wnstjd/factorial-cache-app:0.0.8
           imagePullPolicy: Always # Local에 있는 이미지를 사용하지 않고 항상 이미지를 pull 해온다 (운영에서는 사용하지 않기를 권장)
           volumeMounts:
             - mountPath: /factorial/logs
